@@ -22,6 +22,7 @@ public class VisulizationPanel extends JPanel {
     boolean isMouseDown = false;
     boolean movingStartNode = false;
     boolean movingEndNode = false;
+    boolean erasingWalls = false;
 
     PanelListener panelListener;
 
@@ -75,7 +76,10 @@ public class VisulizationPanel extends JPanel {
                     else if(movingEndNode) {
                         panelPressed.setEnd();
                     } 
-                    else {
+                    else if(erasingWalls && panelPressed.isWallNode()) {
+                        panelPressed.setEmpty();
+                    }
+                    else if(!erasingWalls && !panelPressed.isStartNode() && !panelPressed.isEndNode()) {
                         panelPressed.setWall();
                     }
                 }
@@ -110,6 +114,10 @@ public class VisulizationPanel extends JPanel {
                 else if(panelPressed.isEndNode()) {
                     movingEndNode = true;
                 }
+                else if(panelPressed.isWallNode()) {
+                    erasingWalls = true;
+                    panelPressed.setEmpty();
+                }
                 else {
                     panelPressed.setWall();
                 }
@@ -124,6 +132,7 @@ public class VisulizationPanel extends JPanel {
             isMouseDown = false;
             movingStartNode = false;
             movingEndNode = false;
+            erasingWalls = false;
         }
 
     }

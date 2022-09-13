@@ -52,4 +52,8 @@ public class VisualizationNodePanel extends JPanel{
         return this.isEndNode;
     }
 
+    public boolean isWallNode() {
+        return this.isWallNode;
+    }
+
 }
