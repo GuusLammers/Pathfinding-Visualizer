@@ -6,6 +6,7 @@ import javax.swing.JComboBox;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 
 public class NavigationPanel extends JPanel {
     
@@ -17,6 +18,7 @@ public class NavigationPanel extends JPanel {
 
     public NavigationPanel() {
         this.setLayout(new GridLayout());
+        this.setBackground(Color.white);
 
         this.startButton = new JButton("Start");
         this.clearButton = new JButton("Clear");
