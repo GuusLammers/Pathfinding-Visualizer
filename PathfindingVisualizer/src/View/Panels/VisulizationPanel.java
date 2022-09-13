@@ -13,14 +13,24 @@ public class VisulizationPanel extends JPanel {
     int WIDTH = 16 * this.scalingFactor;
     int HEIGHT = 9 * this.scalingFactor;
 
+    Color startNodeColor = Color.green;
+    Color endNodeColor = Color.red;
+    Color wallNodeColor = Color.black;
+
+    VisualizationNodePanel[][] nodes;
+
     boolean isMouseDown = false;
+    boolean movingStartNode = false;
+    boolean movingEndNode = false;
 
     PanelListener panelListener;
 
     public VisulizationPanel() {
         this.setBackground(Color.white);
+        this.nodes = new VisualizationNodePanel[this.HEIGHT][this.WIDTH];
         this.panelListener = new PanelListener();
         this.createVisulizationPanel();
+        this.randomlyPlaceStartAndEndNodes();
     }
 
     private void createVisulizationPanel() {
@@ -29,9 +39,20 @@ public class VisulizationPanel extends JPanel {
             for(int j = 0; j < this.HEIGHT; j++) {
                 VisualizationNodePanel node = new VisualizationNodePanel();
                 node.addMouseListener(panelListener);
+                this.nodes[j][i] = node;
                 this.add(node);
             }   
         }
+    }
+
+    private void randomlyPlaceStartAndEndNodes() {
+        int startRow = getRandomNumber(0, this.HEIGHT);
+        int startCol = getRandomNumber(0, this.WIDTH);
+        int endRow = getRandomNumber(0, this.HEIGHT);
+        int endCol = getRandomNumber(0, this.WIDTH);
+
+        this.nodes[startRow][startCol].setStart();
+        this.nodes[endRow][endCol].setEnd();
     }
 
     private class PanelListener implements MouseListener {
@@ -44,18 +65,35 @@ public class VisulizationPanel extends JPanel {
             /*
              * Triggered when the mouse enters a node panel
              */
-            System.out.println("Entered");
             if(isMouseDown) {
                 Object source = event.getSource();
-                if(source instanceof JPanel){
-                    JPanel panelPressed = (JPanel) source;
-                    panelPressed.setBackground(Color.black);
+                if(source instanceof VisualizationNodePanel){
+                    VisualizationNodePanel panelPressed = (VisualizationNodePanel) source;
+                    if(movingStartNode) {
+                        panelPressed.setStart();
+                    }
+                    else if(movingEndNode) {
+                        panelPressed.setEnd();
+                    } 
+                    else {
+                        panelPressed.setWall();
+                    }
                 }
             }
         }
 
         @Override
-        public void mouseExited(MouseEvent event) {}
+        public void mouseExited(MouseEvent event) {
+            if(isMouseDown) {
+                Object source = event.getSource();
+                if(source instanceof VisualizationNodePanel){
+                    VisualizationNodePanel panelPressed = (VisualizationNodePanel) source;
+                    if(movingStartNode || movingEndNode) {
+                        panelPressed.setEmpty();
+                    }
+                }
+            }
+        }
 
         @Override
         public void mousePressed(MouseEvent event) {
@@ -63,6 +101,19 @@ public class VisulizationPanel extends JPanel {
              * Triggered when mouse is pressed down.
              */
             isMouseDown = true;
+            Object source = event.getSource();
+            if(source instanceof VisualizationNodePanel){
+                VisualizationNodePanel panelPressed = (VisualizationNodePanel) source;
+                if(panelPressed.isStartNode()) {
+                    movingStartNode = true;
+                }
+                else if(panelPressed.isEndNode()) {
+                    movingEndNode = true;
+                }
+                else {
+                    panelPressed.setWall();
+                }
+            }
         }
 
         @Override
@@ -71,8 +122,14 @@ public class VisulizationPanel extends JPanel {
              * Triggered when mouse is released.
              */
             isMouseDown = false;
+            movingStartNode = false;
+            movingEndNode = false;
         }
 
+    }
+
+    public int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 
 }
