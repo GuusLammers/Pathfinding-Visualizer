@@ -1,3 +1,5 @@
+import View.View;
+
 public class Controller {
 
     Model model;
