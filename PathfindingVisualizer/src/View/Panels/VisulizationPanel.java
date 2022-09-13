@@ -17,7 +17,7 @@ public class VisulizationPanel extends JPanel {
     Color endNodeColor = Color.red;
     Color wallNodeColor = Color.black;
 
-    VisualizationNodePanel[][] nodes;
+    NodePanel[][] nodes;
 
     boolean isMouseDown = false;
     boolean movingStartNode = false;
@@ -28,7 +28,7 @@ public class VisulizationPanel extends JPanel {
 
     public VisulizationPanel() {
         this.setBackground(Color.white);
-        this.nodes = new VisualizationNodePanel[this.HEIGHT][this.WIDTH];
+        this.nodes = new NodePanel[this.HEIGHT][this.WIDTH];
         this.panelListener = new PanelListener();
         this.createVisulizationPanel();
         this.randomlyPlaceStartAndEndNodes();
@@ -38,7 +38,7 @@ public class VisulizationPanel extends JPanel {
         this.setLayout(new GridLayout(HEIGHT, WIDTH));
         for(int i = 0; i < this.WIDTH; i++) {
             for(int j = 0; j < this.HEIGHT; j++) {
-                VisualizationNodePanel node = new VisualizationNodePanel();
+                NodePanel node = new NodePanel();
                 node.addMouseListener(panelListener);
                 this.nodes[j][i] = node;
                 this.add(node);
@@ -68,8 +68,8 @@ public class VisulizationPanel extends JPanel {
              */
             if(isMouseDown) {
                 Object source = event.getSource();
-                if(source instanceof VisualizationNodePanel){
-                    VisualizationNodePanel panelPressed = (VisualizationNodePanel) source;
+                if(source instanceof NodePanel){
+                    NodePanel panelPressed = (NodePanel) source;
                     if(movingStartNode) {
                         panelPressed.setStart();
                     }
@@ -90,8 +90,8 @@ public class VisulizationPanel extends JPanel {
         public void mouseExited(MouseEvent event) {
             if(isMouseDown) {
                 Object source = event.getSource();
-                if(source instanceof VisualizationNodePanel){
-                    VisualizationNodePanel panelPressed = (VisualizationNodePanel) source;
+                if(source instanceof NodePanel){
+                    NodePanel panelPressed = (NodePanel) source;
                     if(movingStartNode || movingEndNode) {
                         panelPressed.setEmpty();
                     }
@@ -106,8 +106,8 @@ public class VisulizationPanel extends JPanel {
              */
             isMouseDown = true;
             Object source = event.getSource();
-            if(source instanceof VisualizationNodePanel){
-                VisualizationNodePanel panelPressed = (VisualizationNodePanel) source;
+            if(source instanceof NodePanel){
+                NodePanel panelPressed = (NodePanel) source;
                 if(panelPressed.isStartNode()) {
                     movingStartNode = true;
                 }
