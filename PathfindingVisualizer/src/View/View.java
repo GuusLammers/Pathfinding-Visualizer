@@ -1,7 +1,6 @@
 package View;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import View.Panels.NavigationPanel;
 import View.Panels.VisulizationPanel;
