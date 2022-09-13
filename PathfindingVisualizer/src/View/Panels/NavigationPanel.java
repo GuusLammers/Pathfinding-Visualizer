@@ -32,6 +32,10 @@ public class NavigationPanel extends JPanel {
         this.add(resetButton);
     }
 
+    public String getSelectedAlgorithm() {
+        return this.algorithmSelector.getSelectedItem().toString();
+    }
+
     public void addStartButtonListener(ActionListener listener) {
         this.startButton.addActionListener(listener);
     }

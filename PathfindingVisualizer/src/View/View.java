@@ -1,6 +1,7 @@
 package View;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import View.Panels.NavigationPanel;
 import View.Panels.VisulizationPanel;
@@ -31,6 +32,14 @@ public class View extends JFrame {
     private void makeFullScreen() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         this.setSize(screenSize.width, screenSize.height);
+    }
+
+    public NavigationPanel getNavigationPanel() {
+        return this.navigationPanel;
+    }
+
+    public VisulizationPanel getVisualizationPanel() {
+        return this.visualizationPanel;
     }
 
 }
