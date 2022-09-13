@@ -4,8 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
-import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionListener;
 
 public class NavigationPanel extends JPanel {
     
@@ -30,6 +30,18 @@ public class NavigationPanel extends JPanel {
         this.add(algorithmSelector);
         this.add(clearButton);
         this.add(resetButton);
+    }
+
+    public void addStartButtonListener(ActionListener listener) {
+        this.startButton.addActionListener(listener);
+    }
+
+    public void addClearButtonListener(ActionListener listener) {
+        this.clearButton.addActionListener(listener);
+    }
+
+    public void addResetButtonListener(ActionListener listener) {
+        this.resetButton.addActionListener(listener);
     }
 
 }
